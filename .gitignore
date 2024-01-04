@@ -1,0 +1,6 @@
+*.pyc
+*.swp
+
+venv/
+__pychache__/
+.mypy_cache/
