@@ -7,4 +7,5 @@ __pychache__/
 
 .pytest_cache/
 
-.
+./tests/__pycache__/
+./src/__pycache__/
