@@ -5,6 +5,9 @@ from re import match
 
 ## lexer class
 class Lexer :
+    """Lexer class: 
+    This class is responsible for reading the source code and returning tokens
+    """
     def __init__(self, source: str) -> None:
         self.source: str =  source
         self._character = ''
@@ -13,6 +16,9 @@ class Lexer :
         self._read_char()
 
     def next_token(self) -> Token:  
+        """ next_token: 
+        This function is responsible for reading the source code and returning tokens
+        """
         self._skip_whitespace()      
 
         if self._character == '=':

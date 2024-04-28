@@ -4,3 +4,7 @@
 venv/
 __pychache__/
 .mypy_cache/
+
+.pytest_cache/
+
+.
