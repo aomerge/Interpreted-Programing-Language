@@ -2,9 +2,15 @@ from abc import (
     ABC, # type: ignore 
     abstractmethod # type: ignore
 )
-from typing import List
+from typing import (
+    List,
+    Optional
+)
 
-from src.token_1 import Token
+from src.token_1 import (
+    Token,
+    TokenType
+)
 
 class ASTNode(ABC):
     def __init__(self, token: Token):
@@ -47,3 +53,21 @@ class Program(ASTNode):
         for statement in self.statements:
             out.append(str(statement))
         return ''.join(out)
+    
+class Identifier(Expression):
+    def __init__(self, token: Token, value: str)-> None:
+        super().__init__(token)
+        self.value = value
+
+    def __str__(self) -> str:
+        return self.value
+    
+class LetStatement(Statement):
+    def __init__(self, token: Token, name: Optional[Identifier] = None , value: Optional[Expression] = None)-> None:
+        super().__init__(token)        
+        self.name = name
+        self.value = value    
+
+    def __str__(self) -> str:
+        out = f'{self.token_literal()} {str(self.name)} = {str(self.value)};'
+        return out

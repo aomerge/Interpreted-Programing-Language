@@ -131,6 +131,8 @@ class Lexer :
         while match(r'^\s$', self._character):
             self._read_char()
 
+
+## example of use of the lexer
 input: str = 'let function'
 lexer = Lexer(input)
 token = lexer.next_token()

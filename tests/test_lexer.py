@@ -6,6 +6,7 @@ from typing import List
 class LexerTest(TestCase):
     def test_lexer(self):
         pass
+
     def test_illegal(self) -> None:
         source: str = '¡¿@'
         lexer: Lexer = Lexer(source)
@@ -21,6 +22,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def test_one_character_tokens(self) -> None:
         source: str = '=+(){},;"</>'
         lexer: Lexer = Lexer(source)
@@ -45,6 +47,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def tetst_eof(self) -> None:
         source: str = 'a'
         lexer: Lexer = Lexer(source)
@@ -59,6 +62,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
+        
     def test_next_token(self) -> None:
         source: str = '=+(){},;'
         lexer: Lexer = Lexer(source)
