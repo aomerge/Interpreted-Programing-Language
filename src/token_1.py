@@ -59,7 +59,9 @@ class TokenType(Enum):
     STATIC = auto()
     STRING = auto()
     SUPER = auto()
-    TRUE = auto()    
+    TRUE = auto()
+    DIVISION = auto()    
+    MULTIPLICATION = auto()
 
 
 

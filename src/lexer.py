@@ -62,6 +62,8 @@ class Lexer :
             token = Token(TokenType.SLASH, self._character)
         elif match(r'^\$', self._character):
             token = Token(TokenType.BACKSLASH, self._character)
+        elif match(r'^*$', self._character):
+            token = Token(TokenType.DIVISION, self._character)
         else:
             token = Token(TokenType.ILLEGAL, self._character)
         
@@ -130,6 +132,13 @@ class Lexer :
     def _skip_whitespace(self):
         while match(r'^\s$', self._character):
             self._read_char()
+    
+    def __repr__(self) -> str:
+        return f"Lexer({self.source})"
+    
+    def __str__(self) -> str:
+        token = self.next_token()
+        return f"lexer:{self.source}, {token}"
 
 
 ## example of use of the lexer
