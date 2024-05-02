@@ -3,22 +3,22 @@ from src.lexer import Lexer
 from src.token_1 import Token, TokenType
 from typing import List
 
+import logging
+
 class LexerTest(TestCase):
-    def test_lexer(self):
-        pass
+    logger = logging.getLogger(__name__)
 
     def test_illegal(self) -> None:
         source: str = '¡¿@'
-        lexer: Lexer = Lexer(source)
-
+        lexer: Lexer = Lexer(source)        
         tokens: List[Token] = []
         for i in range(len(source)):
-            tokens.append(lexer.next_token())
+            tokens.append(lexer.next_token())        
 
-        expected_tokens: List[Token] = [
+        expected_tokens: List[Token] = [            
             Token(TokenType.ILLEGAL, '¡'),
-            Token(TokenType.ILLEGAL, '¿'),
-            Token(TokenType.ILLEGAL, '@'),
+            Token(TokenType.ILLEGAL, '¿'),            
+            Token(TokenType.ILLEGAL, '@')            
         ]
 
         self.assertEqual(tokens, expected_tokens)
@@ -62,7 +62,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
-        
+
     def test_next_token(self) -> None:
         source: str = '=+(){},;'
         lexer: Lexer = Lexer(source)
@@ -83,6 +83,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def test_two_character_tokens(self) -> None:
         source: str = '==!=<>'
         lexer: Lexer = Lexer(source)
@@ -93,14 +94,15 @@ class LexerTest(TestCase):
 
         expected_tokens: List[Token] = [
             Token(TokenType.EQUAL, '=='),
-            Token(TokenType.ILLEGAL, '!'),
-            Token(TokenType.ASSIGN, '='),
+            Token(TokenType.NOT_EQUAL, '!='),
             Token(TokenType.LessThan, '<'),
             Token(TokenType.GreaterThan, '>'),
+            Token(TokenType.EOF, ''),
             Token(TokenType.EOF, '')
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def test_identifiers(self) -> None:
         source: str = 'foobar Foobar_ _fOobar'
         lexer: Lexer = Lexer(source)
@@ -120,8 +122,9 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def test_keywords(self) -> None:
-        source: str = 'let function end if else return true false' 
+        source: str = 'let function if else return true false' 
         lexer: Lexer = Lexer(source)
 
         tokens: List[Token] = []
@@ -134,10 +137,16 @@ class LexerTest(TestCase):
         expected_tokens: List[Token] = [
             Token(TokenType.LET, 'let'),            
             Token(TokenType.FUNCTION, 'function'),
+            Token(TokenType.CONDITIONAL, 'if'),
+            Token(TokenType.IDENT, 'else'),
+            Token(TokenType.RETURN, 'return'),
+            Token(TokenType.TRUE, 'true'),
+            Token(TokenType.FALSE, 'false'),
             Token(TokenType.EOF, '')
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def test_integers(self) -> None:
         source: str = '1234567890'
         lexer: Lexer = Lexer(source)
@@ -155,6 +164,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)  
+
     def test_function_declaration (self)-> None:
         source: str = 'function add(a,b){return a+b;}'
         lexer: Lexer = Lexer(source)
@@ -185,6 +195,7 @@ class LexerTest(TestCase):
         ]
 
         self.assertEqual(tokens, expected_tokens)
+
     def test_class_declaration (self) -> None:
         source: str = '''
         class Person {

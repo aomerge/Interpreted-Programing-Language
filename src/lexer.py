@@ -62,8 +62,11 @@ class Lexer :
             token = Token(TokenType.SLASH, self._character)
         elif match(r'^\$', self._character):
             token = Token(TokenType.BACKSLASH, self._character)
-        elif match(r'^*$', self._character):
-            token = Token(TokenType.DIVISION, self._character)
+        elif match(r'^\!$', self._character):
+            if self._peek_char() == '=':
+                token = self._make_two_character_token(TokenType.NOT_EQUAL)
+            else:
+                token = Token(TokenType.NOT_EQUAL, self._character)
         else:
             token = Token(TokenType.ILLEGAL, self._character)
         
@@ -85,17 +88,20 @@ class Lexer :
             self._character = self.source[self._read_position]        
         self._position = self._read_position
         self._read_position += 1
+
     def _peek_char(self):
         if self._read_position >= len(self.source):
             return ''
         else:
             return self.source[self._read_position]
+        
     def _read_identifier(self):
         number_str = ''
         while self._character.isalpha() or self._character == '_':
             number_str += self._character
             self._read_char()
         return number_str
+    
     def _lookup_ident(self, ident):
         keywords = {
             'let': TokenType.LET,
@@ -129,10 +135,16 @@ class Lexer :
             'href': TokenType.STRING,
         }
         return keywords.get(ident, TokenType.IDENT)
+        
     def _skip_whitespace(self):
         while match(r'^\s$', self._character):
             self._read_char()
     
+    def _make_two_character_token(self, token_type: TokenType) -> Token:
+        char = self._character
+        self._read_char()        
+        return Token(token_type,f'{char}{self._character}')
+
     def __repr__(self) -> str:
         return f"Lexer({self.source})"
     
