@@ -12,7 +12,8 @@ from src.ast import (
     Identifier, 
     ReturnStatement, 
     ExpressionStatement, 
-    Expression
+    Expression,
+    Integer
 )
 from src.token_1 import (Token, TokenType)
 
@@ -106,6 +107,18 @@ class Parser:
     def _parese_identifier(self) -> Identifier:
         assert self._current_token is not None
         return Identifier(token=self._current_token, value=self._current_token.literal)        
+    
+    def _parse_integer_literal(self) -> Optional[Integer]:
+        assert self._current_token is not None
+        integer = Integer(token=self._current_token)
+
+        try:
+            integer.value = int(self._current_token.literal)
+        except ValueError:
+            self._errors.append(f'could not parse {self._current_token.literal} as integer')
+            return None
+        
+        return integer
 
     def _parce_statement(self) -> Optional[Statement]:
         if self._current_token.type == TokenType.LET:
@@ -133,7 +146,8 @@ class Parser:
         return {
             TokenType.IDENT: self._parse_identifier,
             TokenType.LET: self._parse_let_statement,
-            TokenType.RETURN: self._parse_return_statement
+            TokenType.RETURN: self._parse_return_statement,
+            TokenType.INT: self._parse_integer_literal
         }
     
     def _register_infix_fns(self) -> infix_parse_fns:

@@ -14,10 +14,10 @@ from src.ast import (
     Statement,
     LetStatement,
     ReturnStatement,
-    Identifier
+    Identifier,
+    Integer
 )
 import logging
-
 
 class ParcerTest(TestCase):
     logger = logging.getLogger(__name__)
@@ -122,6 +122,53 @@ class ParcerTest(TestCase):
         
         self._test_literal_expression(expression_statement.expression, "foobar")
 
+    def test_prefix(self) -> None:
+        """ test_prefix_expression:
+        This function is responsible for testing the prefix expression 
+        """
+        source: str = '''
+            !5; 
+            -5;
+        '''
+        lexer:Lexer =  Lexer(source)
+        self.logger.debug(f'Lexer: {lexer}')
+        """parser:Parser = Parser(lexer) """
+        """ program:Program = parser.getProgram() """
+
+
+        """ self._test_program_statement(parser, program, 2) """
+
+        """ for statement, (expected_operation, value) in zip(
+            program.statements, 
+            [('!', 5), ('-', 5)]
+        ):
+            expression_statement = cast(ExpressionStatement, statement)
+
+            self.assertIsInstance(expression_statement.expression, Prefix)
+
+            prefix = cast(Prefix, expression_statement.expression)
+
+            assert prefix is not None
+            self._test_literal_expression(prefix.right, value)      """   
+
+    def test_integer_Expression(self) -> None:
+        """ test_integer_Expression:
+        This function is responsible for testing the integer expression 
+        """
+        source: str = '5;'
+        lexer:Lexer =  Lexer(source)
+        parser:Parser = Parser(lexer)
+        program:Program = parser.getProgram()        
+
+        assert program is not None
+
+        self._test_program_statement(parser, program)
+
+        expression_statement = cast(ExpressionStatement, program.statements[0])
+
+        assert expression_statement.expression is not None
+        self._test_literal_expression(expression_statement.expression, 5)
+    
     def _test_program_statement(self,parser: Parser, program: Program, expected_statement_Count: int = 1 ) -> None:
         """ test_program_statement:
         This function is responsible for testing the program statement 
@@ -142,7 +189,7 @@ class ParcerTest(TestCase):
         if value_type == str:
             self._test_identifier_expression(expression, value)
         elif value_type == int:
-            self._test_identifier_expression(expression, value)
+            self._test_integer_expression(expression, value)
         elif value_type == bool:
             self._test_identifier_expression(expression, value)
         else:
@@ -158,3 +205,13 @@ class ParcerTest(TestCase):
         self.assertEqual(expression.value, value)
         self.assertEqual(expression.token_literal(), value)   
 
+    def _test_integer_expression(self, integer: Expression, value:int) -> None:
+        """ test_integer_expression:
+        This function is responsible for testing the integer expression 
+        """
+        self.assertIsInstance(integer, Integer)
+
+        integer = cast(Integer, integer)     
+        
+        self.assertEqual(integer.value, value)
+        self.assertEqual(integer.token_literal(), str(value))
