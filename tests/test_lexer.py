@@ -41,9 +41,9 @@ class LexerTest(TestCase):
             Token(TokenType.COMMA, ','),
             Token(TokenType.SEMICOLON, ';'),
             Token(TokenType.QUOTE, '"'),
-            Token(TokenType.LessThan, '<'),            
-            Token(TokenType.SLASH, '/'),
-            Token(TokenType.GreaterThan, '>'),
+            Token(TokenType.LT, '<'),            
+            Token(TokenType.DIVISION, '/'),
+            Token(TokenType.GT, '>'),
         ]
 
         self.assertEqual(tokens, expected_tokens)
@@ -95,8 +95,8 @@ class LexerTest(TestCase):
         expected_tokens: List[Token] = [
             Token(TokenType.EQUAL, '=='),
             Token(TokenType.NOT_EQUAL, '!='),
-            Token(TokenType.LessThan, '<'),
-            Token(TokenType.GreaterThan, '>'),
+            Token(TokenType.LT, '<'),
+            Token(TokenType.GT, '>'),
             Token(TokenType.EOF, ''),
             Token(TokenType.EOF, '')
         ]
