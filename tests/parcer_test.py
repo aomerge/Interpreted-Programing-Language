@@ -6,6 +6,7 @@ from typing import (
     Union,
     cast,
     Any,
+    Tuple
 )
 from src.ast import (
     Expression,
@@ -15,7 +16,8 @@ from src.ast import (
     LetStatement,
     ReturnStatement,
     Identifier,
-    Integer
+    Integer,
+    Infix
 )
 import logging
 
@@ -150,6 +152,49 @@ class ParcerTest(TestCase):
 
             assert prefix is not None
             self._test_literal_expression(prefix.right, value)      """   
+    
+    def test_infix(self) -> None:
+        
+        source: str = '''
+            5 + 5;
+            5 - 5;
+            5 * 5;
+            5 / 5;
+            5 > 5;
+            5 < 5;
+            5 == 5;
+            5 != 5;
+        '''
+        lexer:Lexer =  Lexer(source)
+        parser:Parser = Parser(lexer)
+        program:Program = parser.getProgram()
+
+        print(f'Número de errores del parser: {len(parser.errors)}')
+        for error in parser.errors:
+            print(error)
+
+        self._test_program_statement(parser, program, expected_statement_Count=8)
+
+        operators:List[Tuple[Any,str,Any]] = [
+            (5, '+', 5),
+            (5, '-', 5),
+            (5, '*', 5),
+            (5, '/', 5),
+            (5, '>', 5),
+            (5, '<', 5),
+            (5, '==', 5),
+            (5, '!=', 5)
+        ]
+
+        for statement, (left, operator, right) in zip(
+            program.statements,
+            operators
+        ):
+            expression_statement = cast(ExpressionStatement, statement)
+            assert expression_statement.expression is not None
+            self.assertIsInstance(expression_statement.expression, Infix)
+            self._test_infix_expression(expression_statement.expression, left, operator, right)
+
 
     def test_integer_Expression(self) -> None:
         """ test_integer_Expression:
@@ -169,6 +214,19 @@ class ParcerTest(TestCase):
         assert expression_statement.expression is not None
         self._test_literal_expression(expression_statement.expression, 5)
     
+    def _test_infix_expression(self, expression:Expression, left:Any, operator:str, right:Any) -> None:
+        """ test_infix_expression:
+        This function is responsible for testing the infix expression 
+        """
+        infix = cast(Infix, expression)
+
+        assert infix.left is not None
+
+        self._test_literal_expression(infix.left, left)
+        self.assertEqual(infix.operator, operator)
+        assert infix.right is not None
+        self._test_literal_expression(infix.right, right)
+
     def _test_program_statement(self,parser: Parser, program: Program, expected_statement_Count: int = 1 ) -> None:
         """ test_program_statement:
         This function is responsible for testing the program statement 
