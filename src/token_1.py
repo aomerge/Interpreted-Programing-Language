@@ -62,6 +62,8 @@ class TokenType(Enum):
     TRUE = auto()
     DIVISION = auto()    
     MULTIPLICATION = auto()
+    NEGATION = auto()
+    ELSE = auto()
 
 
 
