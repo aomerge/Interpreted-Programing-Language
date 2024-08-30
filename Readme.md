@@ -1,1 +1,0 @@
-# Interpreted-Programing-Language
