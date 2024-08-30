@@ -1,6 +1,6 @@
 ## imports
 from src.token_1 import Token, TokenType 
-""" from token_1 import Token, TokenType """
+#from token_1 import Token, TokenType 
 from re import match
 
 ## lexer class
@@ -23,10 +23,25 @@ class Lexer :
 
         if self._character == '=':
             if self._peek_char() == '=':
+                char = self._character
                 self._read_char()
-                token = Token(TokenType.EQUAL, '==')
+                token = Token(TokenType.EQUAL, char + self._character)
             else:
-                token = Token(TokenType.ASSIGN, '=')        
+                token = Token(TokenType.ASSIGN, '=')     
+        elif self._character == '>':
+            if self._peek_char() == '=':
+                char = self._character
+                self._read_char()
+                token = Token(TokenType.GTE, char + self._character)
+            else:
+                token = Token(TokenType.GT, self._character)
+        elif self._character == '<':
+            if self._peek_char() == '=':
+                char = self._character
+                self._read_char()
+                token = Token(TokenType.LTE, char + self._character)
+            else:
+                token = Token(TokenType.LT, self._character)
         elif self._character.isalpha() or self._character == '_':
             literal = self._read_identifier()
             token_type = self._lookup_ident(literal)
@@ -36,6 +51,10 @@ class Lexer :
             return Token(TokenType.INT, literal)
         elif match(r'^\+$', self._character):
             token = Token(TokenType.PLUS, self._character)
+        elif match(r'^\-$', self._character):
+            token = Token(TokenType.MINUS, self._character)
+        elif match(r'^\*$', self._character):
+            token = Token(TokenType.MULTIPLICATION, self._character)
         elif self._character == '':            
             return Token(TokenType.EOF, '')
         elif match(r'^\($', self._character):
@@ -54,12 +73,8 @@ class Lexer :
             token = Token(TokenType.QUOTE, self._character)
         elif match(r'^;$', self._character):
             token = Token(TokenType.SEMICOLON, self._character)
-        elif match(r'^<$', self._character):
-            token = Token(TokenType.LessThan, self._character)
-        elif match(r'^>$', self._character):
-            token = Token(TokenType.GreaterThan, self._character)
         elif match(r'^/$', self._character):
-            token = Token(TokenType.SLASH, self._character)
+            token = Token(TokenType.DIVISION, self._character)
         elif match(r'^\$', self._character):
             token = Token(TokenType.BACKSLASH, self._character)
         elif match(r'^\!$', self._character):
@@ -124,7 +139,7 @@ class Lexer :
             'self': TokenType.SELF,
             'super': TokenType.SUPER,
             'namespaces': TokenType.NAMESPACES,
-            'and': TokenType.AND,
+            'and': TokenType.AND,            
             'or': TokenType.OR,
             'not': TokenType.NOT_EQUAL,            
             '!=': TokenType.NOT_EQUAL,            
@@ -154,7 +169,9 @@ class Lexer :
 
 
 ## example of use of the lexer
-input: str = 'let function'
+input: str = '''
+            5 == 5;
+        '''
 lexer = Lexer(input)
 token = lexer.next_token()
 while token.type != TokenType.EOF:
