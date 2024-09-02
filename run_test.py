@@ -2,12 +2,14 @@ from src.lexer import Lexer
 from src.parser_1 import Parser
 from src.interpreter import Interpreter
 from src.ast import Program  # Asegúrate de que el archivo se llama custom_ast.py
+from src.object import Integer
 
 # Código fuente de ejemplo en tu lenguaje
 codigo_fuente = '''
 let x = 5;
-let y = x + 10;
-return y;
+let y = 25;
+return x + y;
+return "Hello, World!";
 '''
 
 # Crear un lexer y un parser
@@ -26,5 +28,11 @@ else:
     # Si no hay errores, interpretar el programa
     interpreter = Interpreter()
     resultado = interpreter.interpret(program)
-    print(f"Resultado del programa: {resultado}")
+    
+    # Si el resultado es un objeto Integer, muestra su valor
+    if isinstance(resultado, Integer):
+        print(f"Resultado del programa: {resultado.value}")
+    else:
+        print(f"Resultado del programa: {resultado}")
+
 
