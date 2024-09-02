@@ -199,13 +199,14 @@ class Parser:
             self._errors.append(message)
             return None
 
+        print(f"Parsing prefix expression with token: {self._current_token.literal}")
         left_expression = prefix_parse_fn()
 
         assert self._peek_token is not None
         while not self._peek_token.type == TokenType.SEMICOLON and precedence < self._peek_precedence():
             infix_parse_fn = self._infix_parse_fns.get(self._peek_token.type)
-            print(f"El valor de infix_parse_fn es {infix_parse_fn.__str__()}")
-                        
+            print(f"Current infix parse function: {infix_parse_fn.__str__()} for token: {self._peek_token.literal}")
+
             if infix_parse_fn is None:
                 break
 
@@ -214,7 +215,7 @@ class Parser:
             left_expression = infix_parse_fn(left_expression)
 
         return left_expression
-        
+
     def _parse_expression_statement(self) -> Optional[ExpressionStatement]:
         assert self._current_token is not None
         expression_statement = ExpressionStatement(token=self._current_token)
@@ -313,15 +314,15 @@ class Parser:
         except KeyError:
             return Precedence.LOWEST
 
-    def _parse_return_statement(self) -> Optional[Statement]:
-        assert self._current_token is not None
-        return_Statement = ReturnStatement(token=self._current_token)
+    def _parse_return_statement(self) -> ReturnStatement:
+        statement = ReturnStatement(token=self._current_token)
+        print(f"El valor de self._current_token es {self._current_token}")
         self._next_token()
-
-        while self._current_token.type != TokenType.SEMICOLON:
-            self._next_token()
-
-        return return_Statement
+        statement.return_value = self._parse_Expression(Precedence.LOWEST)
+        print(f"El valor de statement.return_value es {statement.return_value}")
+        if self._peek_token.type == TokenType.SEMICOLON:
+            self._next_token()        
+        return statement
 
     def _peek_error(self, token_type: TokenType) -> None:
         assert self._peek_token is not None
