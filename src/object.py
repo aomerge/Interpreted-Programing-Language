@@ -50,6 +50,7 @@ class Null(Object):
     
 class Return(Object):
     def __init__(self, value: Object):
+        print(value)
         self.value = value
 
     def type(self) -> ObjectType:
