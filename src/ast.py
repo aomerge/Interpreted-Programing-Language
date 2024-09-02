@@ -76,6 +76,7 @@ class ReturnStatement(Statement):
     def __init__(self, token: Token, return_value: Optional[Expression] = None)-> None:
         super().__init__(token)
         self.return_value = return_value
+        print("class ReturnStatement",return_value, Token)
 
     def __str__(self) -> str:
         out = f'{self.token_literal()} {str(self.return_value)};'
