@@ -177,10 +177,10 @@ class Function(Expression):
 
     def __init__(self,
                  token: Token,
-                 parameters: List[Identifier] = [],
+                 parameters: Optional[List[Identifier]] = None,
                  body: Optional[Block] = None) -> None:
         super().__init__(token)
-        self.parameters = parameters
+        self.parameters = parameters if parameters is not None else []
         self.body = body
 
     def __str__(self) -> str:
