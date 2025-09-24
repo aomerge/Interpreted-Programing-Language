@@ -16,9 +16,9 @@ class StatementEvaluator:
         node_type: Type = type(node)
         match node_type:
             case ast.Program:
-                return self.eval_ProgramExpression(node, environment)
+                return self.eval_program_expression(node, environment)
             case ast.Block:
-                return self.eval_BlockExpression(node, environment)
+                return self.eval_block_expression(node, environment)
 
             case ast.ExpressionStatement:
                 expression_statement_node = cast(ast.ExpressionStatement, node)
@@ -35,7 +35,7 @@ class StatementEvaluator:
                 environment.set(self.return_statement_node.name.value, value)
                 return value
 
-    def eval_ProgramExpression(self, node: ast.Program, environment: Environment) -> Optional[Object]:
+    def eval_program_expression(self, node: ast.Program, environment: Environment) -> Optional[Object]:
         program_node = cast(ast.Program, node)
         result: Optional[Object] = None
         for statement in program_node.statements:
@@ -46,7 +46,7 @@ class StatementEvaluator:
                 return result
         return result
 
-    def eval_BlockExpression(self, node: ast.Block, environment: Environment) -> Optional[Object]:
+    def eval_block_expression(self, node: ast.Block, environment: Environment) -> Optional[Object]:
         block_node = cast(ast.Block, node)
         result: Optional[Object] = None
         for statement in block_node.statements:

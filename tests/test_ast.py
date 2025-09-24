@@ -34,8 +34,7 @@ class ASTTest(TestCase):
 
         self.assertEqual(program_str, source)
     
-    def test_return_program(self) -> None:
-        source: str = 'return = 5;'
+    def test_return_program(self) -> None:        
         program: Program = Program(statements=[
     
             ReturnStatement(

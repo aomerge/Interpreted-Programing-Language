@@ -40,7 +40,7 @@ class ParserValidator:
             },
             {
                 "name": "Funciones Básicas",
-                "code": "fn(x, y) { return x + y; };",
+                "code": "function(x, y) { return x + y; };",
                 "expected_statements": 1
             },
             {
@@ -167,14 +167,14 @@ class ParserValidator:
         
         # Ejecutar casos de prueba
         test_results = self.run_test_cases()
-        print(f"\n🧪 CASOS DE PRUEBA:")
-        print("-" * 30)
-        print(f"Total: {test_results['total_tests']}")
-        print(f"Pasados: ✅ {test_results['passed']}")
-        print(f"Fallidos: ❌ {test_results['failed']}")
+        # print(f"\n🧪 CASOS DE PRUEBA:")
+        # print("-" * 30)
+        # print(f"Total: {test_results['total_tests']}")
+        # print(f"Pasados: ✅ {test_results['passed']}")
+        # print(f"Fallidos: ❌ {test_results['failed']}")
         
-        print(f"\n📊 RESULTADOS DETALLADOS:")
-        print("-" * 30)
+        # print(f"\n📊 RESULTADOS DETALLADOS:")
+        # print("-" * 30)
         
         for result in test_results["test_results"]:
             status = "✅" if result["passed"] else "❌"

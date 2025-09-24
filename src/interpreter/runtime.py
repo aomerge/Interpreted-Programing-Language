@@ -85,7 +85,9 @@ class InfixOperations:
         '*': lambda l, r: l * r,
         '/': lambda l, r: l // r,  # Integer division
         '<': lambda l, r: l < r,
+        '<=': lambda l, r: l <= r,
         '>': lambda l, r: l > r,
+        '>=': lambda l, r: l >= r,
         '==': lambda l, r: l == r,
         '!=': lambda l, r: l != r,
     }
@@ -124,7 +126,7 @@ class InfixOperations:
         result = operation(left_value, right_value)
         
         # Return appropriate object type based on operation
-        if operator in ['<', '>', '==', '!=']:
+        if operator in ['<', '<=', '>', '>=', '==', '!=']:
             return RuntimePrimitives.to_boolean_object(result)
         
         return Integer(result)

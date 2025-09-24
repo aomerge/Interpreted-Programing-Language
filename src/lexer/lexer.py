@@ -31,6 +31,9 @@ class Lexer:
         "}": TokenType.RBRACE,
         ",": TokenType.COMMA,
         ";": TokenType.SEMICOLON,
+        '"': TokenType.QUOTE,
+        "<": TokenType.LT,
+        ">": TokenType.GT,
         # Si realmente desea mapear barra invertida (\):
         # "\\": TokenType.BACKSLASH,
         # Si desea mapear el signo de dólar ($) a algún token:
@@ -68,22 +71,22 @@ class Lexer:
             number_literal: str = self.scanner.read_number()
             return Token(TokenType.INT, number_literal)
 
-        # Strings
-        if current_char in (self._DOUBLE_QUOTE, self._SINGLE_QUOTE):
-            string_literal, closed = self.scanner.read_string()
-            if not closed:
-                # Cadena sin cierre: señalamos ILLEGAL con el literal leído
-                return Token(TokenType.ILLEGAL, string_literal)
-            return Token(TokenType.STRING, string_literal)
-
         # Operadores de dos caracteres: ==, !=, <=, >=
         two_char_token: Optional[Token] = self._try_two_char_operator(current_char)
         if two_char_token is not None:
             return two_char_token
 
-        # Operadores / símbolos de un carácter
+        # Operadores / símbolos de un carácter (incluyendo comillas)
         if current_char in self._SINGLE_CHAR_TOKEN_MAP:
             return self._emit_single_char_token(current_char)
+
+        # Strings (solo si no es una comilla individual)
+        if current_char in (self._SINGLE_QUOTE,):  # Removemos DOUBLE_QUOTE de aquí
+            string_literal, closed = self.scanner.read_string()
+            if not closed:
+                # Cadena sin cierre: señalamos ILLEGAL con el literal leído
+                return Token(TokenType.ILLEGAL, string_literal)
+            return Token(TokenType.STRING, string_literal)
 
         # Carácter desconocido/ilegal
         illegal = Token(TokenType.ILLEGAL, current_char)

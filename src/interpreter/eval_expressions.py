@@ -34,31 +34,31 @@ class ExpressionEvaluator:
                 string_node = cast(ast.StringLiteral, node)
                 return String(string_node.value)
             case ast.Identifier:
-                return self.eval_IdentifierExpression(node, environment)
+                return self.eval_identifier_expression(node, environment)
             case ast.Prefix:
-                return self.eval_PrefixExpression(node, environment)
+                return self.eval_prefix_expression(node, environment)
             case ast.Infix:
-                return self.eval_InfixExpression(node, environment)
+                return self.eval_infix_expression(node, environment)
             case ast.If:
-                return self.eval_BinaryExpression(node, environment)
+                return self.eval_binary_expression(node, environment)
             case ast.Function:
                 function_node = cast(ast.Function, node)                
                 return Function(function_node.parameters, function_node.body, environment)
             case ast.Call:
-                return self.eval_CallExpression(node, environment)
+                return self.eval_call_expression(node, environment)
             case ast.Block:
                 return self.dispatcher.statements.evaluate(node, environment)
             case _:
                 return None
 
-    def eval_IdentifierExpression(self, node: ast.Identifier, environment: Environment) -> Optional[Object]:
+    def eval_identifier_expression(self, node: ast.Identifier, environment: Environment) -> Optional[Object]:
         identifier_node = cast(ast.Identifier, node)
         value = environment.get(identifier_node.value)
         if value is not None:
             return value
         return BUILTINS.get(identifier_node.value, new_error(UNKNOWN_IDENTIFIER, [identifier_node.value]))
 
-    def eval_PrefixExpression(self, node: ast.Prefix, environment: Environment) -> Optional[Object]:
+    def eval_prefix_expression(self, node: ast.Prefix, environment: Environment) -> Optional[Object]:
         prefix_node = cast(ast.Prefix, node)
         right_value = self.dispatcher.evaluate(prefix_node.right, environment)
         assert right_value is not None
@@ -68,7 +68,7 @@ class ExpressionEvaluator:
             return PrefixOperations.minus(right_value)
         return new_error(UNKNOWN_INFIX_OPERATOR, [prefix_node.operator, right_value.type().name])
 
-    def eval_InfixExpression(self, node: ast.Infix, environment: Environment) -> Optional[Object]:
+    def eval_infix_expression(self, node: ast.Infix, environment: Environment) -> Optional[Object]:
         infix_node = cast(ast.Infix, node)
         left_value = self.dispatcher.evaluate(infix_node.left, environment)
         right_value = self.dispatcher.evaluate(infix_node.right, environment)
@@ -89,7 +89,7 @@ class ExpressionEvaluator:
 
         return new_error(UNKNOWN_INFIX_OPERATOR, [left_value.type().name, infix_node.operator, right_value.type().name])
 
-    def eval_BinaryExpression(self, node: ast.BinaryExpression, environment: Environment) -> Optional[Object]:
+    def eval_binary_expression(self, node: ast.If, environment: Environment) -> Optional[Object]:
         if_node = cast(ast.If, node)
         condition_value = self.dispatcher.evaluate(if_node.condition, environment)
         assert condition_value is not None
@@ -99,7 +99,7 @@ class ExpressionEvaluator:
             return self.dispatcher.evaluate(if_node.alternative, environment)
         return RuntimePrimitives.NULL
 
-    def eval_CallExpression(self, node: ast.CallExpression, environment: Environment) -> Optional[Object]:
+    def eval_call_expression(self, node: ast.Call, environment: Environment) -> Optional[Object]:
         call_node = cast(ast.Call, node)
         function_object = self.dispatcher.evaluate(call_node.function, environment)
         arguments = [self.dispatcher.evaluate(argument, environment) for argument in call_node.arguments]

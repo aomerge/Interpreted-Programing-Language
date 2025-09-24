@@ -33,7 +33,7 @@ class ModularParser:
         """Parsea el programa completo."""
         program = Program(statements=[])
         
-        while not self._current_token.type == TokenType.EOF:
+        while self._current_token.type != TokenType.EOF:
             statement = self._parse_statement()
             if statement is not None:
                 program.statements.append(statement)

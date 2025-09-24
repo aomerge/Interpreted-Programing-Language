@@ -15,13 +15,6 @@ return x + y;
 lexer = Lexer(codigo_fuente)
 parser = Parser(lexer)
 
-print("=== PARSER MODULAR ===")
-print(f"Componentes cargados:")
-print(f"  - StatementParser: {type(parser.statement_parser).__name__}")
-print(f"  - ExpressionParser: {type(parser.expression_parser).__name__}")
-print(f"  - FunctionParser: {type(parser.function_parser).__name__}")
-print()
-
 # Parsear el código fuente para obtener el AST
 program = parser.getProgram()
 

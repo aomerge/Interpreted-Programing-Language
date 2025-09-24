@@ -71,8 +71,8 @@ class StatementParser:
         block_statement = Block(token=self.core._current_token, statements=[])
         self.core._next_token()
         
-        while (not self.core._current_token.type == TokenType.RBRACE and 
-               not self.core._current_token.type == TokenType.EOF):
+        while (self.core._current_token.type != TokenType.RBRACE and 
+               self.core._current_token.type != TokenType.EOF):
             statement = self.core._parse_statement()
             if statement is not None:
                 block_statement.statements.append(statement)
