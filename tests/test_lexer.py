@@ -8,12 +8,24 @@ import logging
 class LexerTest(TestCase):
     logger = logging.getLogger(__name__)
 
+    def collect_tokens(self, lexer: Lexer, source: str, use_eof: bool = False) -> List[Token]:
+        tokens: List[Token] = []
+        if use_eof:
+            while True:
+                token = lexer.next_token()
+                tokens.append(token)
+                if token.type == TokenType.EOF:
+                    break
+        else:
+            for _ in range(len(source)):
+                tokens.append(lexer.next_token())
+        return tokens
+
     def test_illegal(self) -> None:
         source: str = '¡¿@'
-        lexer: Lexer = Lexer(source)        
-        tokens: List[Token] = []
-        for i in range(len(source)):
-            tokens.append(lexer.next_token())        
+        lexer: Lexer = Lexer(source)
+        tokens = self.collect_tokens(lexer, source)
+        
 
         expected_tokens: List[Token] = [            
             Token(TokenType.ILLEGAL, '¡'),
@@ -26,10 +38,7 @@ class LexerTest(TestCase):
     def test_one_character_tokens(self) -> None:
         source: str = '=+(){},;"</>'
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        for i in range(len(source)):
-            tokens.append(lexer.next_token())
+        tokens = self.collect_tokens(lexer, source)
 
         expected_tokens: List[Token] = [
             Token(TokenType.ASSIGN, '='),
@@ -51,10 +60,7 @@ class LexerTest(TestCase):
     def tetst_eof(self) -> None:
         source: str = 'a'
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        for i in range(len(source)):
-            tokens.append(lexer.next_token())
+        tokens = self.collect_tokens(lexer, source)
 
         expected_tokens: List[Token] = [
             Token(TokenType.IDENT, 'a'),
@@ -66,10 +72,7 @@ class LexerTest(TestCase):
     def test_next_token(self) -> None:
         source: str = '=+(){},;'
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        for i in range(len(source)):
-            tokens.append(lexer.next_token())
+        tokens = self.collect_tokens(lexer, source)
 
         expected_tokens: List[Token] = [
             Token(TokenType.ASSIGN, '='),
@@ -87,10 +90,7 @@ class LexerTest(TestCase):
     def test_two_character_tokens(self) -> None:
         source: str = '==!=<>'
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        for i in range(len(source)):
-            tokens.append(lexer.next_token())
+        tokens = self.collect_tokens(lexer, source)
 
         expected_tokens: List[Token] = [
             Token(TokenType.EQUAL, '=='),
@@ -107,12 +107,7 @@ class LexerTest(TestCase):
         source: str = 'foobar Foobar_ _fOobar'
         lexer: Lexer = Lexer(source)
 
-        tokens: List[Token] = []
-        while True:
-            token = lexer.next_token()
-            tokens.append(token)
-            if token.type == TokenType.EOF:
-                break
+        tokens = self.collect_tokens(lexer, source, use_eof=True)
 
         expected_tokens: List[Token] = [
             Token(TokenType.IDENT, 'foobar'),            
@@ -126,13 +121,7 @@ class LexerTest(TestCase):
     def test_keywords(self) -> None:
         source: str = 'let function if else return true false' 
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        while True:
-            token = lexer.next_token()
-            tokens.append(token)
-            if token.type == TokenType.EOF:
-                break
+        tokens = self.collect_tokens(lexer, source, use_eof=True)
 
         expected_tokens: List[Token] = [
             Token(TokenType.LET, 'let'),            
@@ -150,13 +139,7 @@ class LexerTest(TestCase):
     def test_integers(self) -> None:
         source: str = '1234567890'
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        while True:
-            token = lexer.next_token()
-            tokens.append(token)
-            if token.type == TokenType.EOF:
-                break
+        tokens = self.collect_tokens(lexer, source, use_eof=True)
 
         expected_tokens: List[Token] = [
             Token(TokenType.INT, '1234567890'),
@@ -168,13 +151,7 @@ class LexerTest(TestCase):
     def test_function_declaration (self)-> None:
         source: str = 'function add(a,b){return a+b;}'
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []
-        while True:
-            token = lexer.next_token()
-            tokens.append(token)
-            if token.type == TokenType.EOF:
-                break
+        tokens = self.collect_tokens(lexer, source, use_eof=True)        
 
         expected_tokens: List[Token] = [
             Token(TokenType.FUNCTION, 'function'),
@@ -210,13 +187,7 @@ class LexerTest(TestCase):
             }
         '''
         lexer: Lexer = Lexer(source)
-
-        tokens: List[Token] = []    
-        while True:
-            token = lexer.next_token()
-            tokens.append(token)
-            if token.type == TokenType.EOF:
-                break
+        tokens = self.collect_tokens(lexer, source, use_eof=True)
 
         expected_tokens: List[Token] = [
             Token(TokenType.CLASS, 'class'),
