@@ -1,5 +1,5 @@
 from typing import Final, Optional
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 from src.lexer.charstream import CharStream
 from src.lexer.scanner import Scanner
 from src.lexer.keywords import lookup_ident

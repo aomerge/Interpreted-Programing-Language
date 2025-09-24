@@ -9,7 +9,7 @@ y valida que todos los componentes funcionen correctamente.
 
 from src.lexer.lexer import Lexer
 from src.parser.parser_core import ModularParser, Parser
-from src.ast import Program, Statement, Expression
+from src.astNode import Program, Statement, Expression
 from typing import List, Dict, Any
 
 

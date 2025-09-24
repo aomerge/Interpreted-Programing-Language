@@ -1,12 +1,12 @@
 """Parser especializado en expresiones."""
 
 from typing import Optional, List, Callable, Dict
-from src.ast import (
+from src.astNode import (
     Expression, Prefix, Infix,
     Integer, Boolean, Identifier, Call,
     StringLiteral, Function, Block
 )
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 from .precedence import Precedence, PRECEDENCES
 
 

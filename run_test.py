@@ -1,8 +1,8 @@
 from src.lexer.lexer import Lexer
 from src.parser.parser_core import Parser  # Usar el nuevo parser modular
 from src.interpreter.interpreter import Interpreter  # Fixed import path
-from src.ast import Program  # Asegúrate de que el archivo se llama custom_ast.py
-from src.confg.object import Integer
+from src.astNode import Program  # Usar el nuevo AST modular
+from src.config.object import Integer
 
 # Código fuente de ejemplo en tu lenguaje (simplificado para pruebas)
 codigo_fuente = '''

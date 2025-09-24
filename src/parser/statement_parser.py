@@ -1,11 +1,11 @@
 """Parser especializado en declaraciones (statements)."""
 
 from typing import Optional, List
-from src.ast import (
+from src.astNode import (
     Statement, LetStatement, ReturnStatement, 
     ExpressionStatement, Identifier, Block
 )
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 from .precedence import Precedence
 
 

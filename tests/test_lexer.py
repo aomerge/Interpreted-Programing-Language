@@ -1,6 +1,6 @@
 from unittest import TestCase
 from src.lexer import Lexer
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 from typing import List
 
 import logging

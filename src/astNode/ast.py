@@ -7,7 +7,7 @@ from typing import (
     Optional
 )
 
-from src.token_1 import (
+from src.config.token_1 import (
     Token,
     TokenType
 )

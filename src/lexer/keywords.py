@@ -1,5 +1,5 @@
 # Importa su TokenType real
-from src.token_1 import TokenType  # ajuste el import a su proyecto
+from src.config.token_1 import TokenType  # ajuste el import a su proyecto
 
 # Solo palabras clave/booleanos; NO operadores aquí
 KEYWORDS = {

@@ -1,8 +1,8 @@
 """Parser especializado en funciones y llamadas."""
 
 from typing import Optional, List
-from src.ast import Function, Call, Identifier, Expression
-from src.token_1 import TokenType
+from src.astNode import Function, Call, Identifier, Expression
+from src.config.token_1 import TokenType
 from .precedence import Precedence
 
 

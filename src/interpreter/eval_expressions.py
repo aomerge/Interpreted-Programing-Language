@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import Optional, List, cast, Type
 from unittest import case
-import src.ast as ast
-from src.confg.environment import Environment
-from src.confg.object import Object, Error, Return, Function, String, Integer
+import src.astNode as ast
+from src.config.environment import Environment
+from src.config.object import Object, Error, Return, Function, String, Integer
 from .runtime import RuntimePrimitives, InfixOperations, PrefixOperations, FunctionsOperations
 from .errors import (
     TYPE_MISMATCH, UNKNOWN_INFIX_OPERATOR, UNKNOWN_IDENTIFIER, new_error

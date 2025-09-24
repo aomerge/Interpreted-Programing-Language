@@ -1,12 +1,12 @@
 from unittest import TestCase
-from src.ast import (
+from src.astNode import (
     Identifier,
     Program,
     Statement,
     LetStatement,
     ReturnStatement
 )
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 
 import logging
 

@@ -1,9 +1,9 @@
 """Núcleo del parser modular."""
 
 from typing import Optional, List
-from src.ast import Program, Statement
+from src.astNode import Program, Statement
 from src.lexer.lexer import Lexer
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 from .precedence import Precedence, PRECEDENCES
 from .statement_parser import StatementParser
 from .expression_parser import ExpressionParser

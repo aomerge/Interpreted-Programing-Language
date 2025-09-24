@@ -2,7 +2,7 @@
 
 from enum import IntEnum
 from typing import Dict
-from src.token_1 import TokenType
+from src.config.token_1 import TokenType
 
 
 class Precedence(IntEnum):

@@ -1,9 +1,9 @@
 from typing import List, Tuple, Union, Optional, cast
-from src.ast import (
+from src.astNode import (
     Block, Expression, Statement
 )   
-from src.confg.environment import Environment
-from src.confg.object import (
+from src.config.environment import Environment
+from src.config.object import (
     Boolean, Null, Object, Integer, Return, Function, String, ObjectType
 )
 

@@ -1,6 +1,6 @@
 from typing import Tuple
 from .charstream import CharStream
-from src.token_1 import TokenType, Token
+from src.config.token_1 import TokenType, Token
 
 
 class Scanner:
