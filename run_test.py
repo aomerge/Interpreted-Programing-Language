@@ -9,7 +9,6 @@ codigo_fuente = '''
 let x = 5;
 let y = 25;
 return x + y;
-return "Hello, World!";
 '''
 
 # Crear un lexer y un parser
