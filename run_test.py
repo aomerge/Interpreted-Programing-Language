@@ -1,4 +1,4 @@
-from src.lexer import Lexer
+from src.lexer.lexer import Lexer
 from src.parser_1 import Parser
 from src.interpreter.interpreter import Interpreter  # Fixed import path
 from src.ast import Program  # Asegúrate de que el archivo se llama custom_ast.py
@@ -12,8 +12,6 @@ return x + y;
 
 let add = fn(x, y) { x + y; };
 add(1, 2);
-
-
 '''
 
 # Crear un lexer y un parser

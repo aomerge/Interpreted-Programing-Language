@@ -4,7 +4,7 @@ from unittest import case
 import src.ast as ast
 from src.confg.environment import Environment
 from src.confg.object import Object, Error, Return, Function, String, Integer
-from .runtime import RuntimePrimitives, InfixOps, PrefixOps, Functions
+from .runtime import RuntimePrimitives, InfixOperations, PrefixOperations, FunctionsOperations
 from .errors import (
     TYPE_MISMATCH, UNKNOWN_INFIX_OPERATOR, UNKNOWN_IDENTIFIER, new_error
 )
@@ -63,9 +63,9 @@ class ExpressionEvaluator:
         right_value = self.dispatcher.evaluate(prefix_node.right, environment)
         assert right_value is not None
         if prefix_node.operator == '!':
-            return PrefixOps.bang(right_value)
+            return PrefixOperations.bang(right_value)
         if prefix_node.operator == '-':
-            return PrefixOps.minus(right_value)
+            return PrefixOperations.minus(right_value)
         return new_error(UNKNOWN_INFIX_OPERATOR, [prefix_node.operator, right_value.type().name])
 
     def eval_InfixExpression(self, node: ast.Infix, environment: Environment) -> Optional[Object]:
@@ -75,10 +75,10 @@ class ExpressionEvaluator:
         assert left_value is not None and right_value is not None
 
         if left_value.type().name == "INTEGER" and right_value.type().name == "INTEGER":
-            return InfixOps.integer_infix(infix_node.operator, left_value, right_value)
+            return InfixOperations.integer_infix(infix_node.operator, left_value, right_value)
         
         if left_value.type().name == "STRING" and right_value.type().name == "STRING":
-            return InfixOps.string_infix(infix_node.operator, left_value, right_value)
+            return InfixOperations.string_infix(infix_node.operator, left_value, right_value)
 
         if infix_node.operator == '==':
             return RuntimePrimitives.to_boolean_object(left_value is right_value)
@@ -104,10 +104,10 @@ class ExpressionEvaluator:
         function_object = self.dispatcher.evaluate(call_node.function, environment)
         arguments = [self.dispatcher.evaluate(argument, environment) for argument in call_node.arguments]
         assert function_object is not None and all(argument is not None for argument in arguments)                
-        apply_result = Functions.apply_function(function_object, cast(List[Object], arguments))  # type: ignore
+        apply_result = FunctionsOperations.apply_function(function_object, cast(List[Object], arguments))  # type: ignore
         if isinstance(apply_result, Object):  # Error
             return apply_result
         block_node, extended_environment = apply_result
         result = self.dispatcher.evaluate(block_node, extended_environment)
         assert result is not None
-        return Functions.unwrap_return_value(result)
+        return FunctionsOperations.unwrap_return_value(result)
