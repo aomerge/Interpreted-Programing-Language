@@ -2,8 +2,8 @@ from __future__ import annotations
 from typing import Optional, List, cast, Type
 from unittest import case
 import src.ast as ast
-from src.environment import Environment
-from src.object import Object, Error, Return, Function, String, Integer
+from src.confg.environment import Environment
+from src.confg.object import Object, Error, Return, Function, String, Integer
 from .runtime import RuntimePrimitives, InfixOps, PrefixOps, Functions
 from .errors import (
     TYPE_MISMATCH, UNKNOWN_INFIX_OPERATOR, UNKNOWN_IDENTIFIER, new_error

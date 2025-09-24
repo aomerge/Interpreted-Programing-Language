@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import Optional, cast, Type
 import src.ast as ast
-from src.environment import Environment
-from src.object import Object, Error, Return
+from src.confg.environment import Environment
+from src.confg.object import Object, Error, Return
 from .interfaces import IEvaluator
 
 class StatementEvaluator:
