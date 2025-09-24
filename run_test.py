@@ -1,6 +1,6 @@
 from src.lexer import Lexer
 from src.parser_1 import Parser
-from src.interpreter import Interpreter
+from src.interpreter.interpreter import Interpreter  # Fixed import path
 from src.ast import Program  # Asegúrate de que el archivo se llama custom_ast.py
 from src.object import Integer
 
@@ -9,6 +9,11 @@ codigo_fuente = '''
 let x = 5;
 let y = 25;
 return x + y;
+
+let add = fn(x, y) { x + y; };
+add(1, 2);
+
+
 '''
 
 # Crear un lexer y un parser
@@ -33,5 +38,4 @@ else:
         print(f"Resultado del programa: {resultado.value}")
     else:
         print(f"Resultado del programa: {resultado}")
-
 

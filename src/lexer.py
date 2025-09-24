@@ -166,14 +166,3 @@ class Lexer :
     def __str__(self) -> str:
         token = self.next_token()
         return f"lexer:{self.source}, {token}"
-
-
-## example of use of the lexer
-# input: str = '''
-#             5 == 5;
-#         '''
-# lexer = Lexer(input)
-# token = lexer.next_token()
-# while token.type != TokenType.EOF:
-#     print(f"Token Type: {token.type}, Literal: {token.literal}")
-#     token = lexer.next_token()
