@@ -1,5 +1,5 @@
 from typing import Any, List
-from src.object import Error
+from src.confg.object import Error
 
 # Mensajes centralizados
 NOT_A_FUNCTION = 'No es una funcion: {}'

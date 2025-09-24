@@ -2,7 +2,7 @@ from src.lexer import Lexer
 from src.parser_1 import Parser
 from src.interpreter.interpreter import Interpreter  # Fixed import path
 from src.ast import Program  # Asegúrate de que el archivo se llama custom_ast.py
-from src.object import Integer
+from src.confg.object import Integer
 
 # Código fuente de ejemplo en tu lenguaje
 codigo_fuente = '''

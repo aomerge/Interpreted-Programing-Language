@@ -2,8 +2,8 @@ from typing import List, Tuple, Union, Optional, cast
 from src.ast import (
     Block, Expression, Statement
 )   
-from src.environment import Environment
-from src.object import (
+from src.confg.environment import Environment
+from src.confg.object import (
     Boolean, Null, Object, Integer, Return, Function, String, ObjectType
 )
 
@@ -18,6 +18,7 @@ from .errors import (
     DIVISION_BY_ZERO,
     new_error
 )
+
 class RuntimePrimitives:
     """"Singletons y utilidades de verdad del lenguaje."""
     TRUE = Boolean(True)

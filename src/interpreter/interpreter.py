@@ -1,7 +1,7 @@
 from typing import Optional
 import src.ast as ast
-from src.environment import Environment
-from src.object import Object
+from src.confg.environment import Environment
+from src.confg.object import Object
 from .dispatcher import Dispatcher
 
 class Interpreter:
