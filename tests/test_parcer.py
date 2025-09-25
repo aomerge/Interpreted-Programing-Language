@@ -1,6 +1,6 @@
 from unittest import TestCase
 from src.lexer import Lexer
-from src.parser_1 import Parser
+from src.parser.parser_core import Parser
 from typing import (    
     List,
     Union,
@@ -8,7 +8,7 @@ from typing import (
     Any,
     Tuple
 )
-from src.ast import (
+from src.astNode import (
     Expression,
     ExpressionStatement,
     Program,
@@ -85,7 +85,7 @@ class ParcerTest(TestCase):
         '''
         lexer:Lexer =  Lexer(source)
         parser:Parser = Parser(lexer)
-        program:Program = parser.getProgram()
+        parser.getProgram()
 
         self.assertEqual(len(parser.errors), 1)   
 
@@ -134,24 +134,6 @@ class ParcerTest(TestCase):
         '''
         lexer:Lexer =  Lexer(source)
         self.logger.debug(f'Lexer: {lexer}')
-        """parser:Parser = Parser(lexer) """
-        """ program:Program = parser.getProgram() """
-
-
-        """ self._test_program_statement(parser, program, 2) """
-
-        """ for statement, (expected_operation, value) in zip(
-            program.statements, 
-            [('!', 5), ('-', 5)]
-        ):
-            expression_statement = cast(ExpressionStatement, statement)
-
-            self.assertIsInstance(expression_statement.expression, Prefix)
-
-            prefix = cast(Prefix, expression_statement.expression)
-
-            assert prefix is not None
-            self._test_literal_expression(prefix.right, value)      """   
     
     def test_infix(self) -> None:
         
@@ -173,7 +155,7 @@ class ParcerTest(TestCase):
         for error in parser.errors:
             print(error)
 
-        self._test_program_statement(parser, program, expected_statement_Count=8)
+        self._test_program_statement(parser, program, expected_statement_count=8)
 
         operators:List[Tuple[Any,str,Any]] = [
             (5, '+', 5),
@@ -227,7 +209,7 @@ class ParcerTest(TestCase):
         assert infix.right is not None
         self._test_literal_expression(infix.right, right)
 
-    def _test_program_statement(self,parser: Parser, program: Program, expected_statement_Count: int = 1 ) -> None:
+    def _test_program_statement(self,parser: Parser, program: Program, expected_statement_count: int = 1 ) -> None:
         """ test_program_statement:
         This function is responsible for testing the program statement 
         """        
@@ -236,7 +218,7 @@ class ParcerTest(TestCase):
 
         self.assertEqual(len(parser.errors), 0)
         
-        self.assertEqual(len(program.statements), expected_statement_Count)
+        self.assertEqual(len(program.statements), expected_statement_count)
         self.assertIsInstance(program.statements[0], ExpressionStatement)
     
     def _test_literal_expression(self, expression:Expression, value:Any) -> None:

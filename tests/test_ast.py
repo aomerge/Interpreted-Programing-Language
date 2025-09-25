@@ -1,12 +1,12 @@
 from unittest import TestCase
-from src.ast import (
+from src.astNode import (
     Identifier,
     Program,
     Statement,
     LetStatement,
     ReturnStatement
 )
-from src.token_1 import Token, TokenType
+from src.config.token_1 import Token, TokenType
 
 import logging
 
@@ -34,8 +34,7 @@ class ASTTest(TestCase):
 
         self.assertEqual(program_str, source)
     
-    def test_return_program(self) -> None:
-        source: str = 'return = 5;'
+    def test_return_program(self) -> None:        
         program: Program = Program(statements=[
     
             ReturnStatement(

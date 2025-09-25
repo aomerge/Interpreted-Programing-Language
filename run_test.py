@@ -1,18 +1,17 @@
-from src.lexer import Lexer
-from src.parser_1 import Parser
-from src.interpreter import Interpreter
-from src.ast import Program  # Asegúrate de que el archivo se llama custom_ast.py
-from src.object import Integer
+from src.lexer.lexer import Lexer
+from src.parser.parser_core import Parser  # Usar el nuevo parser modular
+from src.interpreter.interpreter import Interpreter  # Fixed import path
+from src.astNode import Program  # Usar el nuevo AST modular
+from src.config.object import Integer
 
-# Código fuente de ejemplo en tu lenguaje
+# Código fuente de ejemplo en tu lenguaje (simplificado para pruebas)
 codigo_fuente = '''
 let x = 5;
-let y = 25;
+let y = 10;
 return x + y;
-return "Hello, World!";
 '''
 
-# Crear un lexer y un parser
+# Crear un lexer y un parser modular
 lexer = Lexer(codigo_fuente)
 parser = Parser(lexer)
 
@@ -34,5 +33,4 @@ else:
         print(f"Resultado del programa: {resultado.value}")
     else:
         print(f"Resultado del programa: {resultado}")
-
 
