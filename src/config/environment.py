@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.object import Object
+from src.config.object import Object
 
 class Environment:
     def __init__(self, outer: Optional['Environment'] = None):
