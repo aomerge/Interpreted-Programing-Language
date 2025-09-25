@@ -57,10 +57,10 @@ class LexerTest(TestCase):
 
         self.assertEqual(tokens, expected_tokens)
 
-    def tetst_eof(self) -> None:
+    def test_eof(self) -> None:
         source: str = 'a'
         lexer: Lexer = Lexer(source)
-        tokens = self.collect_tokens(lexer, source)
+        tokens = self.collect_tokens(lexer, source, use_eof=True)
 
         expected_tokens: List[Token] = [
             Token(TokenType.IDENT, 'a'),
